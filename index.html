@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="af">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Wiskunde">
+<title>Wiskunde Pret!</title>
+<style>
+*{-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+html,body{margin:0;height:100%;overflow:hidden;
+  font-family:"Baloo 2","Chalkboard SE","Comic Sans MS","Segoe UI",Helvetica,Arial,sans-serif}
+body{background:linear-gradient(#8fd3ff 0%,#d6f1ff 55%,#b8f0a8 55.1%,#8fe07a 100%);color:#3b2a6b}
+.hide{display:none !important}
+.cloud{position:fixed;font-size:12vmin;opacity:.9;-webkit-animation:drift 60s linear infinite;animation:drift 60s linear infinite;pointer-events:none}
+@-webkit-keyframes drift{from{-webkit-transform:translateX(-20vw)}to{-webkit-transform:translateX(120vw)}}
+@keyframes drift{from{transform:translateX(-20vw)}to{transform:translateX(120vw)}}
+header{position:fixed;top:0;left:0;right:0;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:space-between;justify-content:space-between;padding:1.5vmin 2vmin;z-index:5}
+.right{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+.right .pill{margin-left:1.5vmin}
+.pill{background:#fff;border-radius:99px;padding:1vmin 2.5vmin;font-size:6.5vmin;font-weight:800;-webkit-box-shadow:0 .6vmin 0 rgba(0,0,0,.13);box-shadow:0 .6vmin 0 rgba(0,0,0,.13);border:0;cursor:pointer;color:#3b2a6b;-webkit-appearance:none;font-family:inherit}
+.pill:active{-webkit-transform:translateY(.4vmin);transform:translateY(.4vmin)}
+#stars{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+#stars.pop{-webkit-animation:pop .5s;animation:pop .5s}
+main{position:absolute;top:0;left:0;right:0;bottom:0;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;padding:11vmin 3vmin 3vmin}
+h1{font-size:9vmin;margin:0 0 3vmin;text-shadow:0 .6vmin 0 #fff;text-align:center}
+#menu{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;-webkit-justify-content:center;justify-content:center;width:92vw;max-width:150vmin}
+.card{width:48%;margin:1%;border-radius:4vmin;padding:3vmin;font-size:6.5vmin;font-weight:800;color:#fff;cursor:pointer;text-align:center;
+  -webkit-box-shadow:0 1.2vmin 0 rgba(0,0,0,.2);box-shadow:0 1.2vmin 0 rgba(0,0,0,.2);display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center}
+.card span{font-size:15vmin;line-height:1;margin-bottom:1vmin}
+.card:active{-webkit-transform:translateY(1vmin);transform:translateY(1vmin);-webkit-box-shadow:0 .2vmin 0 rgba(0,0,0,.2);box-shadow:0 .2vmin 0 rgba(0,0,0,.2)}
+.c1{background:#ff7a59}.c2{background:#3fb6ff}.c3{background:#a66bff}.c4{background:#2fc77a}
+#play{width:100%;height:100%;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;-webkit-justify-content:space-around;justify-content:space-around}
+#prompt{font-size:7vmin;font-weight:800;text-align:center;background:#fff;border-radius:4vmin;padding:1.5vmin 4vmin;-webkit-box-shadow:0 .8vmin 0 rgba(0,0,0,.13);box-shadow:0 .8vmin 0 rgba(0,0,0,.13);cursor:pointer}
+#stage{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;-webkit-justify-content:center;justify-content:center;-webkit-align-items:center;align-items:center;max-width:96vw;min-height:30vmin}
+.item{line-height:1.05;position:relative;cursor:pointer;padding:.5vmin;margin:.5vmin 1vmin}
+.item.done{-webkit-animation:bounce .5s;animation:bounce .5s}
+.item .b{position:absolute;right:-.5vmin;bottom:-.5vmin;background:#ff4d8d;color:#fff;font-size:5.5vmin;font-weight:800;line-height:1;
+  min-width:1.5em;height:1.5em;border-radius:50%;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;-webkit-box-shadow:0 .5vmin 0 rgba(0,0,0,.2);box-shadow:0 .5vmin 0 rgba(0,0,0,.2)}
+.group{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;-webkit-justify-content:center;justify-content:center;-webkit-align-items:center;align-items:center;-webkit-align-content:center;align-content:center;background:rgba(255,255,255,.8);border:1vmin solid #fff;border-radius:4vmin;
+  padding:2vmin;margin:0 2vmin;min-width:36vw;max-width:44vw;min-height:34vmin;cursor:pointer;-webkit-box-shadow:0 1vmin 0 rgba(0,0,0,.13);box-shadow:0 1vmin 0 rgba(0,0,0,.13)}
+.group:active{-webkit-transform:translateY(.6vmin);transform:translateY(.6vmin)}
+.group .e{line-height:1.1;margin:0 .5vmin}
+.op{font-size:14vmin;font-weight:800;color:#ff4d8d;margin:0 2vmin}
+.eq{font-size:11vmin;font-weight:800;text-align:center;width:100%}
+#opts{display:-webkit-flex;display:flex;-webkit-justify-content:center;justify-content:center}
+.opt{width:24vmin;height:24vmin;margin:0 1.5vmin;border-radius:5vmin;font-size:15vmin;font-weight:800;color:#fff;cursor:pointer;
+  -webkit-box-shadow:0 1.2vmin 0 rgba(0,0,0,.2);box-shadow:0 1.2vmin 0 rgba(0,0,0,.2);display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;line-height:1;text-align:center}
+.opt small{font-size:4.5vmin;font-weight:700;margin-top:.5vmin}
+.opt:active{-webkit-transform:translateY(1vmin);transform:translateY(1vmin);-webkit-box-shadow:0 .2vmin 0 rgba(0,0,0,.2);box-shadow:0 .2vmin 0 rgba(0,0,0,.2)}
+.o0{background:#ff7a59}.o1{background:#3fb6ff}.o2{background:#a66bff}
+.shake{-webkit-animation:shake .4s;animation:shake .4s}.dim{opacity:.35}
+@-webkit-keyframes shake{25%{-webkit-transform:translateX(-1.5vmin) rotate(-4deg)}75%{-webkit-transform:translateX(1.5vmin) rotate(4deg)}}
+@keyframes shake{25%{transform:translateX(-1.5vmin) rotate(-4deg)}75%{transform:translateX(1.5vmin) rotate(4deg)}}
+@-webkit-keyframes bounce{40%{-webkit-transform:scale(1.4) rotate(-8deg)}}
+@keyframes bounce{40%{transform:scale(1.4) rotate(-8deg)}}
+@-webkit-keyframes pop{40%{-webkit-transform:scale(1.35)}}
+@keyframes pop{40%{transform:scale(1.35)}}
+#praise{position:fixed;left:50%;top:42%;-webkit-transform:translate(-50%,-50%) scale(0);transform:translate(-50%,-50%) scale(0);font-size:13vmin;font-weight:800;color:#fff;
+  -webkit-text-stroke:.8vmin #ff4d8d;text-align:center;pointer-events:none;z-index:20;white-space:nowrap}
+#praise.show{-webkit-animation:praise 1.8s ease-out;animation:praise 1.8s ease-out}
+@-webkit-keyframes praise{0%{-webkit-transform:translate(-50%,-50%) scale(0)}20%{-webkit-transform:translate(-50%,-50%) scale(1.15)}30%{-webkit-transform:translate(-50%,-50%) scale(1)}85%{opacity:1}100%{-webkit-transform:translate(-50%,-70%) scale(1);opacity:0}}
+@keyframes praise{0%{transform:translate(-50%,-50%) scale(0)}20%{transform:translate(-50%,-50%) scale(1.15)}30%{transform:translate(-50%,-50%) scale(1)}85%{opacity:1}100%{transform:translate(-50%,-70%) scale(1);opacity:0}}
+.fall{position:fixed;top:-10vmin;font-size:8vmin;pointer-events:none;z-index:15;-webkit-animation:fall 2.4s ease-in forwards;animation:fall 2.4s ease-in forwards}
+@-webkit-keyframes fall{to{-webkit-transform:translateY(115vh) rotate(540deg)}}
+@keyframes fall{to{transform:translateY(115vh) rotate(540deg)}}
+.emo,.e,.item,.card span,.cloud,.fall{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.item .b{font-family:"Chalkboard SE","Comic Sans MS",Helvetica,Arial,sans-serif}
+</style>
+</head>
+<body ontouchstart="">
+<div class="cloud" style="top:8%;-webkit-animation-delay:-10s;animation-delay:-10s">&#9729;&#65039;</div>
+<div class="cloud" style="top:22%;-webkit-animation-delay:-35s;animation-delay:-35s;font-size:9vmin">&#9729;&#65039;</div>
+
+<header>
+  <button class="pill hide" id="home"><span class="emo">&#127968;</span></button>
+  <span id="spacer"></span>
+  <div class="right">
+    <button class="pill" id="snd" title="Klank"><span class="emo">&#128266;</span></button>
+    <div class="pill" id="stars"><span class="emo">&#11088;</span>&nbsp;<span id="starN">0</span></div>
+  </div>
+</header>
+
+<main>
+  <div id="menuWrap">
+    <h1>Kom speel met syfers! &#127880;</h1>
+    <div id="menu">
+      <div class="card c1" data-g="tel"><span>&#127822;</span>Tel</div>
+      <div class="card c2" data-g="syfer"><span>4&#65039;&#8419;</span>Syfers</div>
+      <div class="card c3" data-g="meer"><span>&#9878;&#65039;</span>Wie het meer?</div>
+      <div class="card c4" data-g="plus"><span>&#10133;</span>Bymekaar</div>
+    </div>
+  </div>
+  <div id="play" class="hide">
+    <div id="prompt"></div>
+    <div id="stage"></div>
+    <div id="opts"></div>
+  </div>
+</main>
+<div id="praise"></div>
+
+<script>
+(function(){
+var W=['nul','een','twee','drie','vier','vyf','ses','sewe','agt','nege','tien'];
+var EM=['🍎','🐶','🐱','🐸','🐞','🚗','⭐','🐟','🎈','🍓','🐥','🌸','🍪','🐻','🚌','⚽'];
+var CONF=['🎉','⭐','🎈','🌟','✨','🎊'];
+var PRAISE=['Mooi so!','Fantasties!','Slim seun!','Wonderlik!','Jy is \'n ster!','Hoera!','Fiks!'];
+function $(s){return document.querySelector(s)}
+function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+function pick(a){return a[rnd(0,a.length-1)]}
+function restart(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls)}
+
+var stars=0,correct=0,game=null,locked=false,counter=0,soundOn=true,ans=0,eqText='';
+try{stars=+localStorage.getItem('wk_stars')||0}catch(e){}
+$('#starN').textContent=stars;
+
+/* ---------- klank ---------- */
+var ac=null;
+function ctx(){
+  if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}
+  if(ac&&ac.state==='suspended'&&ac.resume)ac.resume();
+  return ac;
+}
+function tone(f,d,t,delay,v){
+  if(!soundOn)return;
+  var c=ctx();if(!c)return;
+  d=d||.15;t=t||'sine';delay=delay||0;v=v||.25;
+  try{
+    var o=c.createOscillator(),g=c.createGain();
+    o.type=t;o.frequency.value=f;
+    var s=c.currentTime+delay;
+    g.gain.setValueAtTime(0,s);g.gain.linearRampToValueAtTime(v,s+.02);
+    g.gain.exponentialRampToValueAtTime(.001,s+d);
+    o.connect(g);g.connect(c.destination);
+    if(o.start){o.start(s);o.stop(s+d+.05)}else{o.noteOn(s);o.noteOff(s+d+.05)}
+  }catch(e){}
+}
+function sPop(n){tone(400+n*50,.12,'triangle')}
+function sWin(){var fs=[523,659,784,1047];for(var i=0;i<fs.length;i++)tone(fs[i],.25,'triangle',i*.1)}
+function sOops(){tone(250,.2,'sine',0,.2);tone(200,.25,'sine',.15,.2)}
+
+/* ---------- stem (Afrikaans, indien beskikbaar) ---------- */
+var voice=null;
+function findVoice(){
+  if(!('speechSynthesis' in window))return;
+  var vs=speechSynthesis.getVoices();voice=null;
+  for(var i=0;i<vs.length;i++){if(/^af/i.test(vs[i].lang)){voice=vs[i];break}}
+}
+if('speechSynthesis' in window){findVoice();speechSynthesis.onvoiceschanged=findVoice}
+function say(t){
+  if(!soundOn||!voice)return;
+  try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);
+    u.voice=voice;u.lang=voice.lang;u.rate=.8;u.pitch=1.15;speechSynthesis.speak(u)}catch(e){}
+}
+
+/* ---------- hulpfunksies ---------- */
+function maxN(){return Math.min(10,3+Math.floor(correct/3))}
+function setPrompt(t,spoken){
+  var p=$('#prompt');p.textContent=t;p.setAttribute('data-say',spoken||t);say(spoken||t);
+}
+$('#prompt').onclick=function(){say(this.getAttribute('data-say'))};
+function sizeFor(n){return n<=3?'22vmin':n<=6?'16vmin':'12vmin'}
+
+function opts(right,max,sub){
+  var arr=[right],guard=0;
+  while(arr.length<3&&guard++<50){
+    var v=rnd(1,Math.max(max+1,4));
+    if(arr.indexOf(v)<0)arr.push(v);
+  }
+  arr.sort(function(){return Math.random()-.5});
+  var box=$('#opts');box.innerHTML='';
+  arr.forEach(function(v,i){
+    var b=document.createElement('div');b.className='opt o'+i;
+    b.innerHTML=v+(sub?'<small>'+W[v]+'</small>':'');
+    b.onclick=function(){
+      ctx();if(locked)return;sPop(v);say(W[v]);
+      if(v===right)win();else wrong(b);
+    };
+    box.appendChild(b);
+  });
+}
+function wrong(el){
+  restart(el,'shake');
+  sOops();setTimeout(function(){say('Probeer weer')},350);
+  if(el.classList.contains('opt'))el.classList.add('dim');
+}
+function win(){
+  locked=true;correct++;stars++;
+  if(game==='plus'&&eqText){$('#opts').innerHTML='<div class="eq">'+eqText+'</div>'}
+  try{localStorage.setItem('wk_stars',stars)}catch(e){}
+  $('#starN').textContent=stars;restart($('#stars'),'pop');
+  sWin();confetti();
+  var pr=pick(PRAISE),el=$('#praise');el.textContent=pr;restart(el,'show');
+  setTimeout(function(){say(pr)},300);
+  setTimeout(next,2300);
+}
+function confetti(){
+  for(var i=0;i<28;i++){
+    var s=document.createElement('div');s.className='fall';
+    s.textContent=pick(CONF);s.style.left=rnd(0,95)+'vw';
+    s.style.webkitAnimationDelay=s.style.animationDelay=(Math.random()*.6)+'s';
+    s.style.fontSize=rnd(6,11)+'vmin';
+    document.body.appendChild(s);
+    (function(el){setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el)},3200)})(s);
+  }
+}
+function makeItem(sz,em,tappable){
+  var b=document.createElement('div');b.className='item';b.style.fontSize=sz;b.textContent=em;
+  if(tappable){
+    b.onclick=function(){
+      ctx();if(b.classList.contains('done'))return;
+      counter++;b.classList.add('done');
+      var bd=document.createElement('span');bd.className='b';bd.textContent=counter;b.appendChild(bd);
+      sPop(counter);say(W[counter]);
+    };
+  }
+  return b;
+}
+function items(parent,n,em,tappable){
+  var sz=sizeFor(n);
+  for(var i=0;i<n;i++)parent.appendChild(makeItem(sz,em,tappable));
+}
+
+/* ---------- speletjies ---------- */
+var games={
+  tel:function(){
+    var n=rnd(1,maxN()),em=pick(EM);ans=n;
+    setPrompt('Tel saam met my!');
+    var st=$('#stage');st.innerHTML='';items(st,n,em,true);
+    opts(n,maxN(),false);
+  },
+  syfer:function(){
+    var n=rnd(1,Math.max(5,maxN()));ans=n;
+    setPrompt('Waar is die '+W[n]+'?');
+    $('#stage').innerHTML='<div class="item" style="font-size:26vmin">👀</div>';
+    opts(n,Math.max(5,maxN()),false);
+  },
+  meer:function(){
+    var m=Math.min(8,maxN()+1),a=rnd(1,m),b=rnd(1,m);
+    while(a===b)b=rnd(1,m);
+    var em=pick(EM),em2=Math.random()<.5?em:pick(EM);
+    var st=$('#stage');st.innerHTML='';$('#opts').innerHTML='';
+    setPrompt('Watter kant het meer?');
+    var mx=Math.max(a,b),sz=mx<=3?'18vmin':mx<=5?'14vmin':'11vmin';
+    [[a,em],[b,em2]].forEach(function(p){
+      var n=p[0],e=p[1],g=document.createElement('div'),h='';
+      g.className='group';
+      for(var k=0;k<n;k++)h+='<span class="e" style="font-size:'+sz+'">'+e+'</span>';
+      g.innerHTML=h;
+      g.onclick=function(){
+        ctx();if(locked)return;
+        if(n===Math.max(a,b)){sPop(n);say(W[n]);win()}else wrong(g);
+      };
+      st.appendChild(g);
+    });
+  },
+  plus:function(){
+    var m=Math.min(10,Math.max(3,maxN()));
+    var a=rnd(1,m-1),b=rnd(1,Math.min(m-a,5));ans=a+b;
+    var em=pick(EM);counter=0;eqText=a+' + '+b+' = '+ans+' 🎉';
+    setPrompt('Hoeveel is dit saam?','Hoeveel is dit saam? '+W[a]+' plus '+W[b]);
+    var st=$('#stage');st.innerHTML='';
+    var g1=document.createElement('div'),g2=document.createElement('div'),op=document.createElement('div');
+    [g1,g2].forEach(function(g){g.style.cssText='display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;-webkit-justify-content:center;justify-content:center;max-width:36vw'});
+    op.className='op';op.textContent='+';
+    items(g1,a,em,true);
+    items(g2,b,pick(EM.filter(function(x){return x!==em})),true);
+    st.appendChild(g1);st.appendChild(op);st.appendChild(g2);
+    opts(ans,m,false);
+  }
+};
+
+function next(){
+  locked=false;counter=0;
+  games[game]();
+}
+function start(g){
+  game=g;ctx();
+  $('#menuWrap').classList.add('hide');$('#play').classList.remove('hide');$('#home').classList.remove('hide');
+  next();
+}
+function home(){
+  game=null;locked=true;
+  try{speechSynthesis.cancel()}catch(e){}
+  $('#play').classList.add('hide');$('#menuWrap').classList.remove('hide');$('#home').classList.add('hide');
+}
+var cards=document.querySelectorAll('.card');
+for(var ci=0;ci<cards.length;ci++){
+  (function(c){c.onclick=function(){start(c.getAttribute('data-g'))}})(cards[ci]);
+}
+$('#home').onclick=home;
+$('#snd').onclick=function(){
+  soundOn=!soundOn;this.innerHTML='<span class="emo">'+(soundOn?'\uD83D\uDD0A':'\uD83D\uDD07')+'</span>';
+  if(!soundOn){try{speechSynthesis.cancel()}catch(e){}}
+};
+})();
+</script>
+</body>
+</html>
