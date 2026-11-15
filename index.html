@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="af" manifest="cache.appcache">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Speletjies">
+<title>Speletjies</title>
+<link rel="stylesheet" href="base.css">
+<style>
+body{background:#d6f1ff;background:-webkit-linear-gradient(#8fd3ff 0%,#d6f1ff 55%,#b8f0a8 55.1%,#8fe07a 100%);background:linear-gradient(#8fd3ff 0%,#d6f1ff 55%,#b8f0a8 55.1%,#8fe07a 100%)}
+main{padding-top:4vmin}
+h1{font-size:10vmin;margin-bottom:4vmin}
+.card{font-size:5.6vmin;padding:3vmin 1vmin 2.5vmin}
+.card svg{margin-bottom:1.2vmin}
+.card small{display:block;font-size:3.4vmin;font-weight:700;opacity:.95;margin-top:.6vmin}
+</style>
+</head>
+<body>
+<svg class="cloud" style="top:8%;-webkit-animation-delay:-10s;animation-delay:-10s" data-icon="cloud" data-vm="16" data-r=".7" viewBox="0 0 100 70"></svg>
+<svg class="cloud" style="top:22%;-webkit-animation-delay:-35s;animation-delay:-35s" data-icon="cloud" data-vm="12" data-r=".7" viewBox="0 0 100 70"></svg>
+<main>
+  <h1>Kom speel!</h1>
+  <div id="menu" class="m3">
+    <div class="card c1" data-u="wiskunde.html"><svg data-icon="plus" data-vm="16" viewBox="0 0 100 100"></svg>Wiskunde</div>
+    <div class="card c2" data-u="letters-getalle.html"><svg data-icon="dA" data-vm="16" viewBox="0 0 100 100"></svg>Letters en Getalle</div>
+    <div class="card c3" data-u="kodeer.html"><svg data-icon="robot" data-vm="16" viewBox="0 0 100 100"></svg>Slim Kodeer</div>
+    <div class="card c4" data-u="skryf-reken.html"><svg data-icon="pencil" data-vm="16" viewBox="0 0 100 100"></svg>Skryf en Reken</div>
+    <div class="card c5" data-u="vorms-meting.html"><svg data-icon="tri" data-vm="16" viewBox="0 0 100 100"></svg>Vorms en Meting</div>
+  </div>
+</main>
+<script src="common.js"></script>
+<script>
+(function(){
+var cards=document.querySelectorAll('.card');
+for(var i=0;i<cards.length;i++)(function(c){c.onclick=function(){location.href=c.getAttribute('data-u')}})(cards[i]);
+WK.sizeIcons();
+})();
+</script>
+</body>
+</html>

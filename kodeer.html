@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="af" manifest="cache.appcache">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Kodeer">
+<title>Slim Kodeer!</title>
+<link rel="stylesheet" href="base.css">
+<style>
+body{background:#e4dcff;background:-webkit-linear-gradient(#c9b8ff 0%,#e4dcff 55%,#a8f0d0 55.1%,#6fe0b0 100%);background:linear-gradient(#c9b8ff 0%,#e4dcff 55%,#a8f0d0 55.1%,#6fe0b0 100%)}
+.big{text-align:center}
+.word{font-size:8vmin;font-weight:800;color:#ff4d8d;text-shadow:0 .6vmin 0 #fff;text-align:center;margin-top:1vmin}
+.opt.pic{border:1vmin solid #fff}
+.opt.bin{width:30vmin;height:27vmin;-webkit-flex-direction:column;flex-direction:column}
+.opt.bin span{display:block;font-size:6vmin;color:#fff}
+.opt.bin svg{margin-bottom:.5vmin}
+.seq{display:-webkit-flex;display:flex;-webkit-justify-content:center;justify-content:center;-webkit-align-items:center;align-items:center;background:#fff;border-radius:4vmin;padding:2vmin 3vmin;-webkit-box-shadow:0 1vmin 0 rgba(0,0,0,.13);box-shadow:0 1vmin 0 rgba(0,0,0,.13)}
+.sq{margin:0 .6vmin;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;border-radius:2vmin}
+.sq.q{border:.9vmin dashed #a66bff;background:#f1e9ff;font-weight:800;color:#a66bff;-webkit-animation:pulse 1.2s infinite;animation:pulse 1.2s infinite}
+.sq.fill{-webkit-animation:boing .5s;animation:boing .5s}
+.rob{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center}
+.board{position:relative;background:#fff;border-radius:3vmin;-webkit-box-shadow:0 1vmin 0 rgba(0,0,0,.13);box-shadow:0 1vmin 0 rgba(0,0,0,.13);margin-right:4vmin}
+.cell{position:absolute;background:#d6f3ff;border-radius:2vmin;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center}
+.cell.alt{background:#fff0c9}
+.cell.goal{-webkit-animation:pulse 1s infinite;animation:pulse 1s infinite}
+.cell.obs{background:#e9dcc8}
+.lvs{display:-webkit-flex;display:flex}
+.lv{border-radius:4vmin;padding:2vmin 3vmin;margin:0 1.5vmin;color:#fff;font-weight:800;cursor:pointer;-webkit-box-shadow:0 1.2vmin 0 rgba(0,0,0,.2);box-shadow:0 1.2vmin 0 rgba(0,0,0,.2);display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;width:30vmin;font-size:4.4vmin;text-align:center}
+.lv small{display:block;font-size:3.6vmin;font-weight:700}
+.lv:active{-webkit-transform:translateY(1vmin);transform:translateY(1vmin)}
+.l1{background:#2fc77a}.l2{background:#ffa31a}.l3{background:#ff4d8d}
+#rb{position:absolute;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;
+  -webkit-transition:left .45s,top .45s;transition:left .45s,top .45s;z-index:2}
+#rb.bump{-webkit-animation:shake .35s;animation:shake .35s}
+.panel{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center}
+.prog{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;min-height:11vmin;width:40vmin;background:#fff;border-radius:3vmin;padding:1vmin;margin-bottom:2vmin;
+  -webkit-justify-content:center;justify-content:center;-webkit-align-items:center;align-items:center;-webkit-box-shadow:0 .8vmin 0 rgba(0,0,0,.13);box-shadow:0 .8vmin 0 rgba(0,0,0,.13)}
+.prog .hint{font-size:4vmin;color:#a99ccf;font-weight:700}
+.sl{width:7.6vmin;height:7.6vmin;margin:.5vmin;background:#ffe9a8;border-radius:1.5vmin;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center}
+.sl.on{background:#ff4d8d;-webkit-transform:scale(1.2);transform:scale(1.2)}
+.arow{display:-webkit-flex;display:flex;margin-bottom:1.2vmin}
+.ab{width:13vmin;height:13vmin;margin:0 .6vmin;border-radius:3vmin;-webkit-box-shadow:0 1vmin 0 rgba(0,0,0,.2);box-shadow:0 1vmin 0 rgba(0,0,0,.2);cursor:pointer;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center}
+.ab:active{-webkit-transform:translateY(.8vmin);transform:translateY(.8vmin)}
+.ab.sp{visibility:hidden}
+.ab.up{background:#ff7a59}.ab.lf{background:#a66bff}.ab.dn{background:#2fc77a}.ab.rt{background:#3fb6ff}
+.ctl{display:-webkit-flex;display:flex}
+.go{border-radius:4vmin;background:#2fc77a;color:#fff;font-size:6.5vmin;font-weight:800;padding:1.2vmin 4vmin;margin-right:2vmin;-webkit-box-shadow:0 1vmin 0 rgba(0,0,0,.2);box-shadow:0 1vmin 0 rgba(0,0,0,.2);cursor:pointer;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+.go svg{margin-right:1.5vmin}
+.un{border-radius:4vmin;background:#fff;padding:1.2vmin 3vmin;-webkit-box-shadow:0 1vmin 0 rgba(0,0,0,.2);box-shadow:0 1vmin 0 rgba(0,0,0,.2);cursor:pointer;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
+.go:active,.un:active{-webkit-transform:translateY(.8vmin);transform:translateY(.8vmin)}
+</style>
+</head>
+<body>
+<svg class="cloud" style="top:8%;-webkit-animation-delay:-10s;animation-delay:-10s" data-icon="cloud" data-vm="16" data-r=".7" viewBox="0 0 100 70"></svg>
+<svg class="cloud" style="top:22%;-webkit-animation-delay:-35s;animation-delay:-35s" data-icon="cloud" data-vm="12" data-r=".7" viewBox="0 0 100 70"></svg>
+
+<header>
+  <div class="hg">
+    <div class="pill" id="home"><svg data-icon="home" data-vm="8" viewBox="0 0 100 100"></svg></div>
+    <div class="pill hide" id="lvl"><svg data-icon="sliders" data-vm="8" viewBox="0 0 100 100"></svg></div>
+  </div>
+  <div class="hg right">
+    <div class="pill" id="snd"><svg data-icon="soundOn" data-vm="8" viewBox="0 0 100 100"></svg></div>
+    <div class="pill" id="stars"><svg data-icon="star" data-vm="8" viewBox="0 0 100 100"></svg><span id="starN">0</span></div>
+  </div>
+</header>
+
+<main>
+  <div id="menuWrap">
+    <h1>Slim dink soos 'n robot!</h1>
+    <div id="menu">
+      <div class="card c1" data-g="volgende"><svg data-icon="twodots" data-vm="14" viewBox="0 0 100 100"></svg>Patrone</div>
+      <div class="card c2" data-g="ontbreek"><svg data-icon="qmark" data-vm="14" viewBox="0 0 100 100"></svg>Wat ontbreek?</div>
+      <div class="card c3" data-g="robot"><svg data-icon="robot" data-vm="14" viewBox="0 0 100 100"></svg>Robot-pad</div>
+      <div class="card c4" data-g="sorteer"><svg data-icon="basket" data-vm="14" viewBox="0 0 100 100"></svg>Sorteer</div>
+    </div>
+  </div>
+  <div id="play" class="hide">
+    <div id="prompt"></div>
+    <div id="stage"></div>
+    <div id="opts"></div>
+  </div>
+</main>
+<div id="praise"></div>
+
+<script src="common.js"></script>
+<script>
+(function(){
+var $=WK.$,rnd=WK.rnd,pick=WK.pick,shuf=WK.shuf,vm=WK.vm;
+var COLORS=['c_red','c_blue','c_yellow','c_green','c_purple','c_orange'];
+var THINGS=['apple','dog','cat','star','frog','strawberry','ladybug','car'];
+var NAME={c_red:'rooi',c_blue:'blou',c_yellow:'geel',c_green:'groen',c_purple:'pers',c_orange:'oranje',
+  apple:'appel',dog:'hond',cat:'kat',star:'ster',frog:'padda',strawberry:'aarbei',ladybug:'kewer',car:'motor'};
+var CAT={diere:['dog','cat','frog','fish','duck','lion','bear','chick'],
+  kos:['apple','banana','strawberry','carrot','cookie','watermelon','tomato','pie'],
+  voertuie:['car','bus','bicycle','plane','train','boat']};
+var CATN={diere:'Diere',kos:'Kos',voertuie:'Voertuie'};
+var DIRS={op:{dx:0,dy:-1,i:'aUp',s:'sUp'},af:{dx:0,dy:1,i:'aDown',s:'sDown'},links:{dx:-1,dy:0,i:'aLeft',s:'sLeft'},regs:{dx:1,dy:0,i:'aRight',s:'sRight'}};
+var DKEYS=['op','af','links','regs'];
+
+var correct=0,game=null,locked=true,reveal=null,revealSay=null,stars=WK.Stars('kd_stars');
+
+function setPrompt(t,spoken){var p=$('#prompt');p.textContent=t;p.setAttribute('data-say',spoken||t);WK.say(spoken||t)}
+$('#prompt').onclick=function(){WK.say(this.getAttribute('data-say'))};
+function buildOpts(items){
+  var box=$('#opts');box.innerHTML='';
+  var arr=shuf(items);
+  for(var i=0;i<arr.length;i++)(function(it,i){
+    var b=document.createElement('div');b.className='opt '+(it.cls||'')+' o'+i;b.innerHTML=it.html;
+    b.onclick=function(){WK.ctx();if(locked)return;WK.sPop();if(it.say)WK.say(it.say);
+      if(it.ok)win();else wrong(b)};
+    box.appendChild(b);
+  })(arr[i],i);
+}
+function wrong(el){
+  WK.restart(el,'shake');
+  WK.sOops();setTimeout(function(){WK.say('Probeer weer')},350);el.classList.add('dim');
+}
+function win(){
+  locked=true;correct++;stars.add();
+  if(reveal)$('#stage').innerHTML=reveal;
+  WK.celebrate(revealSay);
+  setTimeout(next,revealSay?3600:2500);
+}
+function uniq(s){var r=[];for(var i=0;i<s.length;i++)if(r.indexOf(s.charAt(i))<0)r.push(s.charAt(i));return r}
+function without(a,x){var r=[];for(var i=0;i<a.length;i++)if(a[i]!==x)r.push(a[i]);return r}
+function pic(n,px){return WK.icon(n,px)}
+
+/* patrone */
+function genPat(mode){
+  var kinds=correct<3?['AB']:correct<6?['AB','AAB','ABB']:['AB','AAB','ABB','ABC','AABB'];
+  var k=pick(kinds),per=k.length;
+  var pool=shuf(Math.random()<.5?COLORS:THINGS),letters=uniq(k),map={};
+  for(var i=0;i<letters.length;i++)map[letters[i]]=pool[i];
+  var L=mode==='next'?per*2+rnd(1,per):per*3;
+  var seq=[];for(var j=0;j<L;j++)seq.push(map[k.charAt(j%per)]);
+  var hidden=mode==='next'?L-1:rnd(per,L-2);
+  var right=seq[hidden];
+  var alt=shuf(without(pool,right)).slice(0,2);
+  return {seq:seq,hidden:hidden,right:right,alt:alt};
+}
+function seqHTML(seq,hidden,filled){
+  var px=vm(seq.length>8?8.5:seq.length>6?10:12),box=Math.round(px*1.25),h='<div class="seq">';
+  for(var i=0;i<seq.length;i++){
+    if(i===hidden&&!filled)h+='<div class="sq q" style="width:'+box+'px;height:'+box+'px;font-size:'+Math.round(px*.8)+'px">?</div>';
+    else h+='<div class="sq'+(i===hidden?' fill':'')+'" style="width:'+box+'px;height:'+box+'px">'+pic(seq[i],px)+'</div>';
+  }
+  return h+'</div>';
+}
+function patGame(mode){
+  var p=genPat(mode);
+  var shown=mode==='next'?p.seq.slice(0,p.hidden+1):p.seq;
+  setPrompt(mode==='next'?'Watter een kom volgende?':'Watter een ontbreek?');
+  $('#stage').innerHTML=seqHTML(shown,p.hidden,false);
+  reveal=seqHTML(shown,p.hidden,true);
+  var nm=[];for(var i=0;i<shown.length;i++)nm.push(NAME[shown[i]]);
+  revealSay=nm.join(', ');
+  var items=[{html:pic(p.right,vm(14)),cls:'pic',ok:true,say:NAME[p.right]}];
+  for(var j=0;j<p.alt.length;j++)items.push({html:pic(p.alt[j],vm(14)),cls:'pic',say:NAME[p.alt[j]]});
+  buildOpts(items);
+}
+
+/* sorteer */
+function sortGame(){
+  var cats=shuf(['diere','kos','voertuie']).slice(0,2),right=cats[0],item=pick(CAT[right]);
+  reveal=pic(item,vm(24))+'<div class="word">Hoort by '+CATN[right]+'!</div>';revealSay=null;
+  setPrompt('Waar hoort dit?');
+  $('#stage').innerHTML=pic(item,vm(24));
+  var items=[];
+  for(var i=0;i<cats.length;i++)items.push({html:pic('basket',vm(13))+'<span>'+CATN[cats[i]]+'</span>',cls:'bin',ok:cats[i]===right,say:CATN[cats[i]]});
+  buildOpts(items);
+}
+
+/* robot */
+var LV={
+  1:{name:'Maklik',N:3,min:1,max:3,every:3,obs:0,obsOn:1,slots:6},
+  2:{name:'Middelmatig',N:4,min:2,max:4,every:3,obs:2,obsOn:2,slots:8},
+  3:{name:'Moeilik',N:5,min:4,max:7,every:2,obs:4,obsOn:4,slots:12}};
+var RS={lvl:1,obs:false,touched:false,won:0};
+var OBSE=['rock','tree','cone'];
+function robotMenu(){
+  locked=false;reveal=null;revealSay=null;
+  setPrompt('Kies hoe moeilik!');
+  $('#opts').innerHTML='';
+  var st=$('#stage'),ip=vm(13);
+  st.innerHTML='<div class="lvs">'+
+    '<div class="lv l1" data-l="1">'+pic('sprout',ip)+'Maklik<small>klein bord</small></div>'+
+    '<div class="lv l2" data-l="2">'+pic('bush',ip)+'Middelmatig<small>groter bord</small></div>'+
+    '<div class="lv l3" data-l="3">'+pic('tree',ip)+'Moeilik<small>groot bord</small></div></div>'+
+    '<div class="pill" id="ob" style="margin-top:2vmin"></div>';
+  function upd(){
+    var t=!RS.touched?'Hindernisse: volgens vlak':RS.obs?'Hindernisse: AAN':'Hindernisse: AF';
+    $('#ob').innerHTML=pic('rock',vm(7))+'<span style="font-size:5vmin">'+t+'</span>';
+  }
+  upd();
+  $('#ob').onclick=function(){WK.ctx();RS.obs=RS.touched?!RS.obs:true;RS.touched=true;WK.sPop();upd()};
+  var bs=st.querySelectorAll('.lv');
+  for(var i=0;i<bs.length;i++)(function(b){b.onclick=function(){
+    WK.ctx();RS.lvl=+b.getAttribute('data-l');RS.won=0;
+    if(!RS.touched)RS.obs=RS.lvl>1;
+    WK.say(LV[RS.lvl].name);robotGame();
+  }})(bs[i]);
+}
+function genRobot(N,steps,nobs){
+  for(var tries=0;tries<1000;tries++){
+    var sx=rnd(0,N-1),sy=rnd(0,N-1),x=sx,y=sy,last=null,ok=true,vis=[[sx,sy]];
+    for(var i=0;i<steps;i++){
+      var ds=[],ks=shuf(DKEYS);
+      for(var q=0;q<ks.length;q++){
+        var d0=DIRS[ks[q]],nx=x+d0.dx,ny=y+d0.dy;
+        if(nx>=0&&ny>=0&&nx<N&&ny<N&&!(last&&last.dx+d0.dx===0&&last.dy+d0.dy===0))ds.push(d0);
+      }
+      if(!ds.length){ok=false;break}
+      var d=ds[0];x+=d.dx;y+=d.dy;last=d;vis.push([x,y]);
+    }
+    if(!ok||(x===sx&&y===sy))continue;
+    var free=[];
+    for(var yy=0;yy<N;yy++)for(var xx=0;xx<N;xx++){
+      var seen=false;for(var v=0;v<vis.length;v++)if(vis[v][0]===xx&&vis[v][1]===yy){seen=true;break}
+      if(!seen)free.push([xx,yy]);
+    }
+    if(free.length<nobs)continue;
+    var keyed=[];
+    for(var f=0;f<free.length;f++){
+      var m=999;for(var w=0;w<vis.length;w++){var dd=Math.abs(vis[w][0]-free[f][0])+Math.abs(vis[w][1]-free[f][1]);if(dd<m)m=dd}
+      keyed.push({c:free[f],k:m+(Math.random()-.5)*1.6});
+    }
+    keyed.sort(function(a,b){return a.k-b.k});
+    var obs=[];for(var o=0;o<nobs;o++)obs.push(keyed[o].c);
+    return {sx:sx,sy:sy,gx:x,gy:y,obs:obs};
+  }
+  return {sx:0,sy:0,gx:1,gy:0,obs:[]};
+}
+function robotGame(){
+  reveal=null;revealSay=null;locked=false;
+  var L=LV[RS.lvl],N=L.N,steps=Math.min(L.max,L.min+Math.floor(RS.won/L.every));
+  var nobs=RS.obs?L.obsOn:0;
+  var g=genRobot(N,steps,nobs),sx=g.sx,sy=g.sy,gx=g.gx,gy=g.gy,obs=g.obs;
+  var blocked={};for(var i=0;i<obs.length;i++)blocked[obs[i][0]+','+obs[i][1]]=1;
+  var oe=pick(OBSE);
+  var C=vm(N===3?14:N===4?11.5:8.4),G=vm(1),maxSlots=Math.min(L.slots,steps+5);
+  setPrompt(nobs?'Vermy die hindernisse!':'Help die robot by die ster!','Help die robot by die ster!'+(nobs?' Vermy die hindernisse!':''));
+  $('#opts').innerHTML='';
+  var st=$('#stage'),bw=N*C+(N+1)*G;
+  var ab=vm(8);
+  st.innerHTML='<div class="rob"><div class="board" id="bd" style="width:'+bw+'px;height:'+bw+'px"></div>'+
+   '<div class="panel"><div class="prog" id="pg"></div>'+
+    '<div class="arow"><div class="ab sp"></div><div class="ab up" data-d="op">'+pic('aUp',ab)+'</div><div class="ab sp"></div></div>'+
+    '<div class="arow"><div class="ab lf" data-d="links">'+pic('aLeft',ab)+'</div><div class="ab dn" data-d="af">'+pic('aDown',ab)+'</div><div class="ab rt" data-d="regs">'+pic('aRight',ab)+'</div></div>'+
+    '<div class="ctl"><div class="go" id="go">'+pic('play',vm(6))+'Gaan!</div><div class="un" id="un">'+pic('undo',vm(9))+'</div></div></div></div>';
+  var bd=$('#bd');
+  for(var y=0;y<N;y++)for(var x=0;x<N;x++){
+    var isO=!!blocked[x+','+y],isG=(x===gx&&y===gy);
+    var c=document.createElement('div');
+    c.className='cell'+((x+y)%2?' alt':'')+(isG?' goal':'')+(isO?' obs':'');
+    c.style.width=C+'px';c.style.height=C+'px';c.style.left=(G+x*(C+G))+'px';c.style.top=(G+y*(C+G))+'px';
+    if(isG)c.innerHTML=pic('star',Math.round(C*.8));else if(isO)c.innerHTML=pic(oe,Math.round(C*.8));
+    bd.appendChild(c);
+  }
+  var rb=document.createElement('div');rb.id='rb';rb.style.width=C+'px';rb.style.height=C+'px';
+  rb.innerHTML=pic('robot',Math.round(C*.82));bd.appendChild(rb);
+  function place(x,y){rb.style.left=(G+x*(C+G))+'px';rb.style.top=(G+y*(C+G))+'px'}
+  place(sx,sy);
+  var prog=[];
+  function render(on){
+    var h='';
+    for(var i=0;i<prog.length;i++)h+='<div class="sl'+(i===on?' on':'')+'">'+pic(DIRS[prog[i]].s,vm(5.5))+'</div>';
+    $('#pg').innerHTML=prog.length?h:'<span class="hint">Tik die pyltjies</span>';
+  }
+  render();
+  var abs=document.querySelectorAll('.ab');
+  for(var a=0;a<abs.length;a++)(function(b){
+    if(!b.getAttribute('data-d'))return;
+    b.onclick=function(){
+      WK.ctx();if(locked||prog.length>=maxSlots)return;
+      var d=b.getAttribute('data-d');prog.push(d);WK.sPop(400+prog.length*60);WK.say(d);render();
+    };
+  })(abs[a]);
+  $('#un').onclick=function(){if(locked)return;prog.pop();WK.sPop(300);render()};
+  $('#go').onclick=function(){
+    WK.ctx();if(locked||!prog.length)return;locked=true;
+    place(sx,sy);
+    var x=sx,y=sy,i=0;
+    function finish(){
+      render();
+      if(x===gx&&y===gy){rb.innerHTML=pic('robotHappy',Math.round(C*.82));RS.won++;win()}
+      else{WK.sOops();WK.say('Probeer weer');setTimeout(function(){place(sx,sy);locked=false},900)}
+    }
+    function step(){
+      if(i>=prog.length){setTimeout(finish,600);return}
+      render(i);
+      setTimeout(function(){
+        var d=DIRS[prog[i]],nx=x+d.dx,ny=y+d.dy;
+        if(nx<0||ny<0||nx>=N||ny>=N||blocked[nx+','+ny]){WK.restart(rb,'bump');WK.sOops()}
+        else{x=nx;y=ny;place(x,y);WK.sPop(400+i*80)}
+        i++;step();
+      },550);
+    }
+    setTimeout(function(){WK.say('Gaan!');step()},500);
+  };
+}
+
+var games={volgende:function(){patGame('next')},ontbreek:function(){patGame('mid')},sorteer:sortGame,robot:robotGame};
+function next(){locked=false;games[game]()}
+function start(g){
+  game=g;WK.ctx();$('#menuWrap').classList.add('hide');$('#play').classList.remove('hide');
+  if(g==='robot')$('#lvl').classList.remove('hide');else $('#lvl').classList.add('hide');
+  if(g==='robot')robotMenu();else next();
+}
+function menu(){game=null;locked=true;$('#lvl').classList.add('hide');WK.cancelSpeech();$('#play').classList.add('hide');$('#menuWrap').classList.remove('hide')}
+var cards=document.querySelectorAll('.card');
+for(var i=0;i<cards.length;i++)(function(c){c.onclick=function(){start(c.getAttribute('data-g'))}})(cards[i]);
+$('#home').onclick=function(){if(game)menu();else location.href='index.html'};
+$('#lvl').onclick=function(){WK.ctx();if(game==='robot')robotMenu()};
+WK.initSound();
+WK.sizeIcons();
+})();
+</script>
+</body>
+</html>
